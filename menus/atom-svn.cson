@@ -1,0 +1,16 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.overlayer':
+      'Enable atom-svn': 'atom-svn:toggle'
+
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'atom-svn'
+      'submenu': [
+        { 'label': 'Toggle', 'command': 'atom-svn:toggle' }
+      ]
+    ]
+  }
+]
