@@ -22,6 +22,7 @@ module.exports =
         @atomSvnView = new AtomSvnView()
         atom.workspaceView.appendToRight(@atomSvnView)
         @atomSvnView.show()
+        @atomSvnView.focus()
 
     close: ->
         @atomSvnView.destroy()

@@ -10,7 +10,7 @@ module.exports =
     class AtomSvnView extends ScrollView
         @content: ->
             @div class: 'atom-svn', =>
-                @table =>
+                @table class: 'table', =>
                     @thead =>
                         @tr =>
                             @th "Path"
@@ -68,8 +68,11 @@ module.exports =
                             commit_info += "by #{author} " if author
                             commit_info += "at #{date}" if date
                     path = $(entry).attr('path')
+                    selected = ''
+                    if i is 0
+                        selected = 'class="selected"'
                     @entries.append """
-                        <tr>
+                        <tr #{selected}>
                             <td class='svn-path'>#{path}</td>
                             <td class='svn-status'>#{status}</td>
                             <td class='svn-pstatus'>#{pstatus}</td>
