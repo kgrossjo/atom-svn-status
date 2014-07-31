@@ -9,3 +9,6 @@
 # https://atom.io/docs/latest/advanced/keymaps
 #'.workspace':
 #  'ctrl-alt-o': 'atom-svn:toggle'
+
+.atom-svn:
+    'q': 'svn:close'
