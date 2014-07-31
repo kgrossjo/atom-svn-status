@@ -1,5 +1,5 @@
 {$, $$, ScrollView} = require 'atom'
-exec = require('child_process').exec
+execFile = require('child_process').execFile
 AtomSvnFile = require './models/file'
 AtomSvnFileView = require './views/file'
 
@@ -49,7 +49,7 @@ module.exports =
 
         show: ->
             root = atom.project.getPath()
-            exec 'svn status --xml', { cwd: root }, (error, stdout, stderr) =>
+            execFile 'svn', ['status', '--xml'], { cwd: root }, (error, stdout, stderr) =>
                 console.log "in svn status --xml..."
                 if error
                     console.error "Error running svn status: #{error}"
@@ -72,7 +72,7 @@ module.exports =
         _run_status: ->
             root = atom.project.getPath()
             files = []
-            exec 'svn status --xml', { cwd: root }, (error, stdout, stderr) =>
+            execFile 'svn', ['status', '--xml'], { cwd: root }, (error, stdout, stderr) =>
                 console.log "in svn status --xml..."
                 if error
                     console.error "Error running svn status: #{error}"
@@ -88,11 +88,11 @@ module.exports =
                     file = new AtomSvnFile(entry)
                     files.push(file)
                     file.select() if i is 0
-                @_populate
-                    file_view = new AtomSvnFileView(file)
-                    @entries.append file_view
-
-                @entries.find('td.svn-path').css('fontFamily', atom.config.get('editor.fontFamily'))
+                # @_populate
+                #     file_view = new AtomSvnFileView(file)
+                #     @entries.append file_view
+                #
+                # @entries.find('td.svn-path').css('fontFamily', atom.config.get('editor.fontFamily'))
 
 
         next: ->
