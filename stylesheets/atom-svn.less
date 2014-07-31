@@ -8,8 +8,19 @@
     position: relative;
     overflow: auto;
     width: 50%;
+    color: @text-color;
+    background-color: darken(@tree-view-background-color, 5%);
 }
 
 .atom-svn .selected {
     background-color: @background-color-selected;
+}
+
+.resize-handle {
+    position:absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    cursor: col-resize;
 }
