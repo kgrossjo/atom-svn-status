@@ -12,6 +12,7 @@ module.exports =
                 @div class: 'resize-handle', outlet: 'resize_handle'
                 @div class: 'loading loading-spinner-small spinner', outlet: 'spinner'
                 @div class: 'atom-svn-loading-indicator'
+                @ul outlet: 'errors', class: 'error-messages block'
                 @table class: 'table', =>
                     @thead =>
                         @tr =>
@@ -70,6 +71,13 @@ module.exports =
                 @entries.append(v)
             @files[0].select()
             @entries.find('td.svn-path').css('fontFamily', atom.config.get('editor.fontFamily'))
+            @hideSpinner()
+            @errors.hide()
+
+        populateErrors: (errors) ->
+            for e in errors
+                @errors.append("<li>#{e}</li>")
+            @errors.show()
             @hideSpinner()
 
         next: =>
