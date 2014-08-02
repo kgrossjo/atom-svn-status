@@ -2,6 +2,8 @@
 
 module.exports =
     class AtomSvnFileView extends View
+        file: null
+
         @content: (file) ->
             selected_class = ''
             if file.isSelected()
@@ -17,3 +19,19 @@ module.exports =
                 @td class: 'svn-pstatus', file.pstatus
                 @td class: 'svn-wrev', file.wrev
                 @td class: 'svn-commit', commit_info
+
+        initialize: (@file) ->
+
+        select: () ->
+            @file.select()
+            @addClass('selected')
+
+        deselect: () ->
+            @file.deselect()
+            @removeClass('selected')
+
+        setSelected: (flag) ->
+            if flag
+                @select()
+            else
+                @deselect()

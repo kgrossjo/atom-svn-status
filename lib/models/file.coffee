@@ -36,4 +36,4 @@ module.exports =
             @selected = false
 
         isSelected: ->
-            return @selected
+            @selected
