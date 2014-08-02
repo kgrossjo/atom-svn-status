@@ -12,3 +12,5 @@
 
 '.atom-svn':
     'q': 'svn:close'
+    'j': 'svn:next'
+    'k': 'svn:previous'
