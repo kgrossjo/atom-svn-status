@@ -28,6 +28,7 @@ module.exports =
             atom.workspaceView.command "svn:next", @next
             atom.workspaceView.command "svn:previous", @previous
             @showSpinner()
+            @on 'click', @focus
 
         resize_started: =>
             $(document.body).on 'mousemove', @resize
@@ -45,6 +46,12 @@ module.exports =
             @spinner.show()
         hideSpinner: ->
             @spinner.hide()
+
+        focus: =>
+            $(this[0]).addClass('focused')
+
+        unfocus: =>
+            $(this[0]).removeClass('focused')
 
         # Returns an object that can be retrieved when package is activated
         serialize: ->
