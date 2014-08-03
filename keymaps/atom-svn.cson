@@ -10,7 +10,9 @@
 #'.workspace':
 #  'ctrl-alt-o': 'atom-svn:toggle'
 
-'.atom-svn tbody':
+'body .workspace .atom-svn':
     'q': 'svn:close'
     'j': 'svn:next'
     'k': 'svn:previous'
+    'ctrl-n': 'svn:next'
+    'ctrl-p': 'svn:previous'
