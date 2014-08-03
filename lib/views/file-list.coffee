@@ -6,30 +6,40 @@ module.exports =
     class AtomSvnFileListView extends ScrollView
         files: null
         current: null
+        isSidebar: null
 
-        @content: ->
-            @div class: 'atom-svn', =>
+        @content: (isSidebar) ->
+            if isSidebar
+                top_class = 'atom-svn sidebar'
+            else
+                top_class = 'atom-svn'
+            @div class: top_class, =>
                 @div class: 'resize-handle', outlet: 'resize_handle'
                 @div class: 'loading loading-spinner-small spinner', outlet: 'spinner'
                 @div class: 'atom-svn-loading-indicator'
                 @ul outlet: 'errors', class: 'error-messages block'
-                @table class: 'table', =>
-                    @thead =>
-                        @tr =>
-                            @th "Path"
-                            @th "Status"
-                            @th "PStatus"
-                            @th "Working Rev"
-                            @th "Committed"
-                    @tbody outlet: 'entries'
+                @div class: 'atom-svn-filelist', =>
+                    @table class: 'table', =>
+                        @thead =>
+                            @tr =>
+                                @th "Path"
+                                @th "Status"
+                                @th "PStatus"
+                                @th "Working Rev"
+                                @th "Committed"
+                        @tbody outlet: 'entries'
                 @div outlet: 'debug_data'
 
-        initialize: (serializeState) ->
+        initialize: (isSidebar) ->
+            @isSidebar = isSidebar
             @resize_handle.on "mousedown", @resize_started
             atom.workspaceView.command "svn:next", @next
             atom.workspaceView.command "svn:previous", @previous
             @showSpinner()
             @on 'click', @focus
+
+        getTitle: ->
+            return "svn status"
 
         resize_started: =>
             $(document.body).on 'mousemove', @resize

@@ -3,6 +3,8 @@ AtomSvnFileListView = require './views/file-list'
 AtomSvnFile = require './models/file'
 execFile = require('child_process').execFile
 
+useSidebar = false
+
 module.exports =
     atomSvnFileListView: null
     files: null
@@ -21,8 +23,11 @@ module.exports =
         # Run svn status
         # Construct model
         # Construct view and render it
-        @atomSvnFileListView = new AtomSvnFileListView()
-        atom.workspaceView.appendToRight(@atomSvnFileListView)
+        @atomSvnFileListView = new AtomSvnFileListView(useSidebar)
+        if (useSidebar)
+            atom.workspaceView.appendToRight(@atomSvnFileListView)
+        else
+            atom.workspace.getActivePane().addItem(@atomSvnFileListView)
         @atomSvnFileListView.show()
         @atomSvnFileListView.focus()
         @_run_status()
