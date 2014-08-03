@@ -58,11 +58,12 @@ module.exports =
         hideSpinner: ->
             @spinner.hide()
 
-        focus: =>
-            $(this[0]).addClass('focused')
-
-        unfocus: =>
-            $(this[0]).removeClass('focused')
+        # focus: =>
+        #     super
+        #     $(this[0]).addClass('focused')
+        #
+        # unfocus: =>
+        #     $(this[0]).removeClass('focused')
 
         # Returns an object that can be retrieved when package is activated
         serialize: ->
@@ -76,7 +77,7 @@ module.exports =
             @files = []
             @current = 0
             for f in files
-                v = new AtomSvnFileView(f)
+                v = new AtomSvnFileView(f, this)
                 @files.push(v)
                 @entries.append(v)
             @files[0].select()
@@ -102,4 +103,10 @@ module.exports =
             @current--
             if @current < 0
                 @current = 0
+            @files[@current].select()
+
+        selectItem: (item) ->
+            @files[@current].deselect()
+            index = @files.indexOf(item)
+            @current = index
             @files[@current].select()

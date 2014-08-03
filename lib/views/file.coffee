@@ -3,8 +3,9 @@
 module.exports =
     class AtomSvnFileView extends View
         file: null
+        parent: null
 
-        @content: (file) ->
+        @content: (file, parent) ->
             selected_class = ''
             if file.isSelected()
                 selected_class = 'selected'
@@ -13,14 +14,14 @@ module.exports =
             commit_info += "r#{file.crev} " if file.crev
             commit_info += "by #{file.author} " if file.author
             commit_info += "at #{date}" if date
-            @tr class: selected_class, =>
+            @tr click: 'focus', class: selected_class, =>
                 @td class: 'svn-path', file.path
                 @td class: 'svn-status', file.status
                 @td class: 'svn-pstatus', file.pstatus
                 @td class: 'svn-wrev', file.wrev
                 @td class: 'svn-commit', commit_info
 
-        initialize: (@file) ->
+        initialize: (@file, @parent) ->
 
         select: () ->
             @file.select()
@@ -35,3 +36,6 @@ module.exports =
                 @select()
             else
                 @deselect()
+
+        focus: ->
+            @parent.selectItem(this)
