@@ -13,12 +13,12 @@ module.exports =
                 top_class = 'atom-svn sidebar'
             else
                 top_class = 'atom-svn'
-            @div class: top_class, =>
+            @div class: top_class, tabindex: -1, =>
                 @div class: 'resize-handle', outlet: 'resize_handle'
                 @div class: 'loading loading-spinner-small spinner', outlet: 'spinner'
                 @div class: 'atom-svn-loading-indicator'
                 @ul outlet: 'errors', class: 'error-messages block'
-                @div class: 'atom-svn-filelist', tabindex: -1, =>
+                @div class: 'atom-svn-filelist', =>
                     @table class: 'table', =>
                         @thead =>
                             @tr =>
