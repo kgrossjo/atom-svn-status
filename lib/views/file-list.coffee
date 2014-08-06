@@ -18,7 +18,7 @@ module.exports =
                 @div class: 'loading loading-spinner-small spinner', outlet: 'spinner'
                 @div class: 'atom-svn-loading-indicator'
                 @ul outlet: 'errors', class: 'error-messages block'
-                @div class: 'atom-svn-filelist', =>
+                @div class: 'atom-svn-filelist', tabindex: -1, =>
                     @table class: 'table', =>
                         @thead =>
                             @tr =>
@@ -58,12 +58,12 @@ module.exports =
         hideSpinner: ->
             @spinner.hide()
 
-        # focus: =>
-        #     super
-        #     $(this[0]).addClass('focused')
-        #
-        # unfocus: =>
-        #     $(this[0]).removeClass('focused')
+        focus: =>
+            super
+            $(this[0]).addClass('focused')
+
+        unfocus: =>
+            $(this[0]).removeClass('focused')
 
         # Returns an object that can be retrieved when package is activated
         serialize: ->
