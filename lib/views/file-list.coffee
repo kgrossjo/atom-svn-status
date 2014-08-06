@@ -6,14 +6,9 @@ module.exports =
     class AtomSvnFileListView extends ScrollView
         files: null
         current: null
-        isSidebar: null
 
-        @content: (isSidebar) ->
-            if isSidebar
-                top_class = 'atom-svn sidebar'
-            else
-                top_class = 'atom-svn'
-            @div class: top_class, tabindex: -1, =>
+        @content: () ->
+            @div class: 'atom-svn', tabindex: -1, =>
                 @div class: 'resize-handle', outlet: 'resize_handle'
                 @div class: 'loading loading-spinner-small spinner', outlet: 'spinner'
                 @div class: 'atom-svn-loading-indicator'
@@ -30,8 +25,7 @@ module.exports =
                         @tbody outlet: 'entries'
                 @div outlet: 'debug_data'
 
-        initialize: (isSidebar) ->
-            @isSidebar = isSidebar
+        initialize: () ->
             @resize_handle.on "mousedown", @resize_started
             atom.workspaceView.command "svn:next", @next
             atom.workspaceView.command "svn:previous", @previous
@@ -92,10 +86,11 @@ module.exports =
             @hideSpinner()
 
         next: =>
+            iLast = -1 + @files.length
             @files[@current].deselect()
             @current++
-            if @current >= @files.length
-                @current = @files.length
+            if @current >= iLast
+                @current = iLast
             @files[@current].select()
 
         previous: =>
