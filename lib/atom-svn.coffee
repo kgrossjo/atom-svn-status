@@ -10,6 +10,7 @@ module.exports =
     activate: (state) ->
         atom.workspaceView.command 'svn:status', => @status()
         atom.workspaceView.command 'svn:close', => @close()
+        atom.workspaceView.command 'svn:toggle-selected', => @toggleMark()
 
     deactivate: ->
         if @atomSvnFileListView
@@ -31,15 +32,22 @@ module.exports =
 
     close: ->
         @atomSvnFileListView.destroy()
+        pane = atom.workspace.getActivePane()
+        pane.destroyItem(pane.getActiveItem())
+
+    toggleMark: ->
+        @atomSvnFileListView.toggleMark()
 
     _run_status: ->
         root = atom.project.getPath()
         @files = []
         execFile 'svn', ['status', '--xml'], { cwd: root }, (error, stdout, stderr) =>
             if error
+                error = error.replace("\n", "<br>")
                 @atomSvnFileListView.populateErrors(["Error running svn status: #{error}"])
             if stderr
-                @atomSvnFileListView.populateErrors("svn status printed this error message: \n#{stderr}")
+                stderr = stderr.replace("\n", "<br>")
+                @atomSvnFileListView.populateErrors(["svn status printed this error message: \n#{stderr}"])
             if error or stderr
                 return
             raw_data = stdout

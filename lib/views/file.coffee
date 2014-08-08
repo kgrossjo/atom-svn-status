@@ -15,6 +15,8 @@ module.exports =
             commit_info += "by #{file.author} " if file.author
             commit_info += "at #{date}" if date
             @tr click: 'focus', class: selected_class, =>
+                @td class: 'svn-marked', =>
+                    @input type: 'checkbox', selected: file.marked
                 @td class: 'svn-path', file.path
                 @td class: 'svn-status', file.status
                 @td class: 'svn-pstatus', file.pstatus
@@ -39,3 +41,7 @@ module.exports =
 
         focus: ->
             @parent.selectItem(this)
+
+        toggleMark: ->
+            file.toggleMark()
+            @find('td.svn-marked input').prop('checked', file.marked)

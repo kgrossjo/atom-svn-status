@@ -17,6 +17,7 @@ module.exports =
                     @table class: 'table', =>
                         @thead =>
                             @tr =>
+                                @th " "
                                 @th "Path"
                                 @th "Status"
                                 @th "PStatus"
@@ -80,6 +81,7 @@ module.exports =
             @errors.hide()
 
         populateErrors: (errors) ->
+            debugger
             for e in errors
                 @errors.append("<li>#{e}</li>")
             @errors.show()
@@ -99,6 +101,9 @@ module.exports =
             if @current < 0
                 @current = 0
             @files[@current].select()
+
+        toggleMark: =>
+            @files[@current].toggleMark()
 
         selectItem: (item) ->
             @files[@current].deselect()

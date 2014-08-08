@@ -9,14 +9,16 @@ module.exports =
     class AtomSvnFile
 
         constructor: (entry) ->
+            @marked = false
             wcstatus = $(entry).find('wc-status')
             @status = ''
+            @longStatus = ''
             @pstatus = ''
             @wrev = ''
             if wcstatus
                 commit = $(wcstatus).find('commit')
-                @status = wcstatus.attr('item')
-                @status = status_map[status] or status
+                @longStatus = wcstatus.attr('item')
+                @status = status_map[@longStatus] or @longStatus
                 @wrev = wcstatus.attr('revision') or ''
                 @pstatus = wcstatus.attr('props')
                 if commit
@@ -37,3 +39,6 @@ module.exports =
 
         isSelected: ->
             @selected
+
+        canCommit: ->
+            return @longStatus == 'modified'
