@@ -11,6 +11,8 @@ module.exports =
         atom.workspaceView.command 'svn:status', => @status()
         atom.workspaceView.command 'svn:close', => @close()
         atom.workspaceView.command 'svn:toggle-selected', => @toggleMark()
+        atom.workspaceView.command 'svn:commit', => @commit()
+        atom.workspaceView.command 'svn:refresh', => @refresh()
 
     deactivate: ->
         if @atomSvnFileListView
@@ -35,8 +37,36 @@ module.exports =
         pane = atom.workspace.getActivePane()
         pane.destroyItem(pane.getActiveItem())
 
+    refresh: ->
+        @close()
+        @status()
+
     toggleMark: ->
         @atomSvnFileListView.toggleMark()
+
+    commit: ->
+        root = atom.project.getPath()
+        files = @atomSvnFileListView.getFilesForCommit()
+        console.log("Files")
+        console.log(files)
+        args = ['commit', '--editor-cmd', 'atom']
+        console.log("Args")
+        console.log( args.concat(files) )
+        execFile 'svn', args.concat(files), { cwd: root }, (error, stdout, stderr) =>
+            if error
+                errstr = "#{error}"
+                errlist = errstr.split(/\r?\n/)
+                @atomSvnFileListView.populateErrors(
+                    ["Error running svn commit:"].concat(errlist))
+            if stderr
+                errstr = "#{stderr}"
+                errlist = errstr.split(/\r?\n/)
+                @atomSvnFileListView.populateErrors(
+                    ["svn commit printed this error message:"].concat(errlist))
+            if error or stderr
+                return
+            console.log(stdout)
+            @atomSvnFileListView.showOutput(stdout)
 
     _run_status: ->
         root = atom.project.getPath()
