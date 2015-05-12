@@ -1,4 +1,4 @@
-{View} = require 'atom'
+{View} = require 'atom-space-pen-views'
 
 module.exports =
     class AtomSvnFileView extends View
@@ -16,14 +16,21 @@ module.exports =
             commit_info += "at #{date}" if date
             @tr click: 'focus', class: selected_class, =>
                 @td class: 'svn-marked', =>
-                    @input type: 'checkbox', selected: file.marked
+                    @input type: 'checkbox', outlet: 'checkbox', selected: file.marked
                 @td class: 'svn-path', file.path
                 @td class: 'svn-status', file.status
                 @td class: 'svn-pstatus', file.pstatus
                 @td class: 'svn-wrev', file.wrev
                 @td class: 'svn-commit', commit_info
 
-        initialize: (@file, @parent) ->
+        initialize: (_file, _parent) ->
+            @file = _file
+            @parent = _parent
+            if @file is null
+                throw new ReferenceError("@file is null")
+            if @file is undefined
+                throw new ReferenceError("@file is undefined")
+            @checkbox.on('click', @toggleMark)
 
         select: () ->
             @file.select()
@@ -42,6 +49,15 @@ module.exports =
         focus: ->
             @parent.selectItem(this)
 
-        toggleMark: ->
-            file.toggleMark()
-            @find('td.svn-marked input').prop('checked', file.marked)
+        toggleMark: =>
+            @file.toggleMark()
+            @find('td.svn-marked input').prop('checked', @file.marked)
+
+        isMarked: ->
+            return @file.isMarked()
+
+        canCommit: ->
+            return @file.canCommit()
+
+        getPath: ->
+            return @file.getPath()

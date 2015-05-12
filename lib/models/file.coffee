@@ -42,3 +42,12 @@ module.exports =
 
         canCommit: ->
             return @longStatus == 'modified'
+
+        toggleMark: ->
+            @marked = ! @marked
+
+        isMarked: ->
+            return @marked
+
+        getPath: ->
+            return @path

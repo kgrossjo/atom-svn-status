@@ -11,8 +11,10 @@ module.exports =
             @div class: 'atom-svn', tabindex: -1, =>
                 @div class: 'resize-handle', outlet: 'resize_handle'
                 @div class: 'loading loading-spinner-small spinner', outlet: 'spinner'
-                @div class: 'atom-svn-loading-indicator'
                 @ul outlet: 'errors', class: 'error-messages block'
+                @div outlet: 'output_panel', class: 'atom-svn-output', =>
+                    @h3 "Command output"
+                    @pre outlet: 'output'
                 @div class: 'atom-svn-filelist', =>
                     @table class: 'table', =>
                         @thead =>
@@ -27,6 +29,7 @@ module.exports =
                 @div outlet: 'debug_data'
 
         initialize: () ->
+            @output_panel.hide()
             @resize_handle.on "mousedown", @resize_started
             atom.workspaceView.command "svn:next", @next
             atom.workspaceView.command "svn:previous", @previous
@@ -81,11 +84,14 @@ module.exports =
             @errors.hide()
 
         populateErrors: (errors) ->
-            debugger
             for e in errors
                 @errors.append("<li>#{e}</li>")
             @errors.show()
             @hideSpinner()
+
+        showOutput: (output) ->
+            @output.text(output)
+            @output_panel.show()
 
         next: =>
             iLast = -1 + @files.length
@@ -110,3 +116,22 @@ module.exports =
             index = @files.indexOf(item)
             @current = index
             @files[@current].select()
+
+        getFilesForCommit: ->
+            markedFiles = @getMarkedFiles()
+            console.log("getFilesForCommit")
+            console.log(markedFiles)
+            result = []
+            for file in markedFiles
+                console.log("File")
+                console.log(file)
+                continue if not file.canCommit()
+                console.log("File path = " + file.getPath())
+                result.push(file.getPath())
+            return result
+
+        getMarkedFiles: ->
+            result = []
+            for file in @files
+                result.push(file) if file.isMarked()
+            return result
