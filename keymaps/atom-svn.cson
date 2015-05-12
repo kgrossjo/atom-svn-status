@@ -16,4 +16,5 @@
     'k': 'svn:previous'
     'ctrl-n': 'svn:next'
     'ctrl-p': 'svn:previous'
-    'm': 'svn:toggle-current'
+    'm': 'svn:toggle-selected'
+    'g': 'svn:refresh'
