@@ -1,10 +1,10 @@
 {
-    "name": "svn",
+    "name": "svn-status",
     "main": "./lib/atom-svn",
     "version": "0.0.0",
-    "description": "A short description of your package",
+    "description": "Aspires to be an svn client in Atom",
     "activationEvents": ["svn:status"],
-    "repository": "https://github.com/kgrossjo/atom-svn",
+    "repository": "https://github.com/kgrossjo/atom-svn-status",
     "license": "MIT",
     "engines": {
         "atom": ">=1.4.0 <2.0.0"
