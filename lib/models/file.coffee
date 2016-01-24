@@ -1,4 +1,4 @@
-{$} = require 'atom'
+{$} = require 'atom-space-pen-views'
 
 status_map =
     unversioned: '?'

@@ -1,14 +1,16 @@
 {
-  "name": "svn",
-  "main": "./lib/atom-svn",
-  "version": "0.0.0",
-  "description": "A short description of your package",
-  "activationEvents": ["svn:status"],
-  "repository": "https://github.com/kgrossjo/atom-svn",
-  "license": "MIT",
-  "engines": {
-    "atom": ">0.50.0"
-  },
-  "dependencies": {
-  }
+    "name": "svn",
+    "main": "./lib/atom-svn",
+    "version": "0.0.0",
+    "description": "A short description of your package",
+    "activationEvents": ["svn:status"],
+    "repository": "https://github.com/kgrossjo/atom-svn",
+    "license": "MIT",
+    "engines": {
+        "atom": ">=1.4.0 <2.0.0"
+    },
+    "dependencies": {
+        "atom-package-dependencies": "~1.0.3",
+        "atom-space-pen-views": "^2.0.3"
+    }
 }

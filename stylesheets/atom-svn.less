@@ -4,15 +4,18 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
-.atom-svn {
+atom-workspace .atom-svn {
     position: relative;
     overflow: auto;
     color: @text-color;
-    background-color: darken(@tree-view-background-color, 5%);
+    // background-color: darken(@tree-view-background-color, 5%);
+    background-color: green;
 }
 
-.atom-svn .selected {
-    background-color: @background-color-selected;
+atom-workspace .atom-svn .atom-svn-filelist tr.selected
+{
+    // background-color: @background-color-selected;
+    background-color: green;
 }
 
 .resize-handle {

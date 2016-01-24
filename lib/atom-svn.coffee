@@ -1,4 +1,4 @@
-{$} = require 'atom'
+{$} = require 'atom-space-pen-views'
 AtomSvnFileListView = require './views/file-list'
 AtomSvnFile = require './models/file'
 execFile = require('child_process').execFile
@@ -8,11 +8,11 @@ module.exports =
     files: null
 
     activate: (state) ->
-        atom.workspaceView.command 'svn:status', => @status()
-        atom.workspaceView.command 'svn:close', => @close()
-        atom.workspaceView.command 'svn:toggle-selected', => @toggleMark()
-        atom.workspaceView.command 'svn:commit', => @commit()
-        atom.workspaceView.command 'svn:refresh', => @refresh()
+        atom.commands.add 'atom-workspace', 'svn:status', => @status()
+        atom.commands.add 'atom-workspace', 'svn:close', => @close()
+        atom.commands.add 'atom-workspace', 'svn:toggle-selected', => @toggleMark()
+        atom.commands.add 'atom-workspace', 'svn:commit', => @commit()
+        atom.commands.add 'atom-workspace', 'svn:refresh', => @refresh()
 
     deactivate: ->
         if @atomSvnFileListView
@@ -45,7 +45,8 @@ module.exports =
         @atomSvnFileListView.toggleMark()
 
     commit: ->
-        root = atom.project.getPath()
+        roots = atom.project.getPaths()
+        root = roots[0]
         files = @atomSvnFileListView.getFilesForCommit()
         console.log("Files")
         console.log(files)
@@ -69,7 +70,8 @@ module.exports =
             @atomSvnFileListView.showOutput(stdout)
 
     _run_status: ->
-        root = atom.project.getPath()
+        roots = atom.project.getPaths()
+        root = roots[0]
         @files = []
         execFile 'svn', ['status', '--xml'], { cwd: root }, (error, stdout, stderr) =>
             if error

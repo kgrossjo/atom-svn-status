@@ -1,4 +1,4 @@
-{$, ScrollView} = require 'atom'
+{$, ScrollView} = require 'atom-space-pen-views'
 AtomSvnFile = require '../models/file'
 AtomSvnFileView = require './file'
 
@@ -8,7 +8,7 @@ module.exports =
         current: null
 
         @content: () ->
-            @div class: 'atom-svn', tabindex: -1, =>
+            @div class: 'atom-svn', tabindex: -99, =>
                 @div class: 'resize-handle', outlet: 'resize_handle'
                 @div class: 'loading loading-spinner-small spinner', outlet: 'spinner'
                 @ul outlet: 'errors', class: 'error-messages block'
@@ -31,8 +31,8 @@ module.exports =
         initialize: () ->
             @output_panel.hide()
             @resize_handle.on "mousedown", @resize_started
-            atom.workspaceView.command "svn:next", @next
-            atom.workspaceView.command "svn:previous", @previous
+            atom.commands.add '.atom-svn', 'svn:next', @next
+            atom.commands.add '.atom-svn', 'svn:previous', @previous
             @showSpinner()
             @on 'click', @focus
 
